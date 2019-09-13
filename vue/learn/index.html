@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>test</title>
+  </head>
+
+  <body>
+    <script src="vue.js"></script>
+    <div id="app">
+      <p v-once>{{ message }}</p>
+      <input type="text" v-model="message" />
+      <br />
+      <button v-on:click="reverseMessage">
+        メッセージ反転
+      </button>
+      <p v-text="message"></p>
+      <div v-html="html"></div>
+      <a v-bind:href="url">Google</a>
+      <a :[attribute]="urlTwitter">Twitter</a>
+      <p>現在{{ number }}回クリックされています</p>
+      <p>{{ lessThanThree }}</p>
+      <button v-on:[event]="countUp">カウントアップ</button>
+      <p v-on:mousemove="changeMousePosition($event,10)">
+        マウスを載せてください
+        <span v-on:mousemove.stop>反応しない</span>
+      </p>
+      <a v-on:click.prevent href="https://google.com">リンクしないGoogle</a>
+      <p>X:{{ x }},Y:{{ y }}</p>
+      <input type="text" v-on:keyup.enter="myAlert" />
+    </div>
+  </body>
+  <script>
+    new Vue({
+      el: "#app",
+      data: {
+        event: "click",
+        message: "HelloWorld!",
+        html: "<h1>H1</h1>",
+        url: "https://google.com",
+        urlTwitter: "https://twitter.com",
+        attribute: "href",
+        number: 0,
+        x: 0,
+        y: 0
+      },
+      methods: {
+        reverseMessage: function() {
+          this.message = this.message
+            .split("")
+            .reverse()
+            .join("");
+        },
+        countUp: function() {
+          this.number++;
+        },
+        changeMousePosition: function(event, divideNumber) {
+          if (divideNumber != 0) {
+            this.x = event.clientX / divideNumber;
+            this.y = event.clientY / divideNumber;
+          }
+        },
+        myAlert: function(event) {
+          alert("Alert!");
+        }
+      },
+      computed: {
+        lessThanThree: function() {
+          return this.number > 3 ? "3回押されました" : "3回以下";
+        }
+      }
+    });
+  </script>
+</html>
