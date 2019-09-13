@@ -22,7 +22,10 @@
       <a :[attribute]="urlTwitter">Twitter</a>
       <p>現在{{ number }}回クリックされています</p>
       <p>{{ lessThanThree }}</p>
-      <button v-on:[event]="countUp">カウントアップ</button>
+      <!--
+        <button v-on:[event]="countUp">カウントアップ</button>
+      -->
+      <button @click="number ++">カウントアップ</button>
       <p v-on:mousemove="changeMousePosition($event,10)">
         マウスを載せてください
         <span v-on:mousemove.stop>反応しない</span>
@@ -69,6 +72,15 @@
       computed: {
         lessThanThree: function() {
           return this.number > 3 ? "3回押されました" : "3回以下";
+        }
+      },
+      watch: {
+        number: function() {
+          //非同期処理
+          var vm = this;
+          setTimeout(() => {
+            vm.number = 0;
+          }, 3000);
         }
       }
     });
